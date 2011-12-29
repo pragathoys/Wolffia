@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  seo: MyString
+  keywords: MyText
+  description: MyText
+  content: MyText
+
+two:
+  title: MyString
+  seo: MyString
+  keywords: MyText
+  description: MyText
+  content: MyText
