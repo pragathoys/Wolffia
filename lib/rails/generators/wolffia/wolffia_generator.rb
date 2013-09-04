@@ -3,14 +3,14 @@ require "rails/generators"
 require 'active_support/core_ext/object/inclusion'
 require 'hpricot'
 
-class RorchadoGenerator < Rails::Generators::Base
+class WolffiaGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
   argument :command_name, :type => :string, :default => "install"
   class_option :module, :type => :string, :default => "all", :description => "Define which module to install/uninstall. Default value is 'all'."
 
   def init
     # Read the available modules from the XML file
-    xml = File.read(self.class.source_root + '/db_schemas/chado_schema.xml')    
+    xml = File.read(self.class.source_root + '/db_schemas/wolffia_schema.xml')    
     @docxml = Hpricot::XML(xml)
     
     @valid_modules = []

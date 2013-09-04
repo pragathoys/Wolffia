@@ -17,7 +17,30 @@ Wolffia requires the following gems to work
 You have to add the latest version of jQuery
 
 == Installation
-Please read the Installation Guide for a detailed installation procedure
+Open a terminal and type
+
+gem install wolffia
+
+== How to use Wolffia in your project
+Create a new Rails project 
+rails new demo
+
+cd demo 
+
+Edit the GemFile by adding the following lines:
+gem 'hpricot'
+gem 'wolffia'
+
+run : bundle install
+
+You are read to go !
+
+== How to create a basic CMS
+cd in your project's folder
+
+run:
+rails g wolffia install --module session
+rails g wolffia install --module cms
 
 == Current Version 
 The current version is 0.1 build 29122011
