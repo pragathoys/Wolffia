@@ -1,0 +1,29 @@
+== Welcome to Wolffia
+Wolffia is a simple Content Management System developed on the Ruby on Rails Framework
+
+== Purpose of this project
+Its purpose is to create a CMS which is:
+- free
+- light
+- robust
+- easy to install
+- easy to extend
+- open source!
+
+== Requirements
+Wolffia requires the following gems to work
+	- hpricot
+
+You have to add the latest version of jQuery
+
+== Installation
+Please read the Installation Guide for a detailed installation procedure
+
+== Current Version 
+The current version is 0.1 build 29122011
+
+== Contribue
+If you want to contribue join us at: https://github.com/pragathoys/Wolffia
+
+
+== More

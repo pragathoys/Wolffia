@@ -1,0 +1,24 @@
+Description:
+    It provides the ability to install/unistall the plugins of Wolffia.
+    It will create the Model,the Controller and the Views to manage via your RoR app
+    all the data of Wolffia's plugins.
+
+Example:
+    rails generate wolffia install --plugin cms
+
+    This will install only the CMS plugin
+
+Example:
+    rails generate wolffia uninstall --plugin cms
+
+    This will uninstall only the CMS plugin
+
+Example:
+    rails generate wolffia install --all
+
+    This will install all the plugins of Wollfia
+
+Example:
+    rails generate wolffia uninstall --all
+
+    This will remove all the plugins of Wollfia

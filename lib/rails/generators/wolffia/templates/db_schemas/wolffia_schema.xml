@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema>
+	<chado version="1.23">
+		<modules>
+			<module id="general" requires="">
+				<tables>
+					<table id="db" primary_key="db_id">
+						<fields>
+			              	<field id="name" type="string" not_null="1" default="" foreign_key=""/>  
+			              	<field id="description" type="string" not_null="" default="" foreign_key=""/>
+			              	<field id="urlprefix" type="string" not_null="" default="" foreign_key=""/>  
+			              	<field id="url" type="string" not_null="" default="" foreign_key=""/> 
+						</fields>
+						<indexes>	
+							<index columns="name" unique="1"/>
+						</indexes>					
+					</table>				
+					<table id="dbxref" primary_key="dbxref_id">
+						<fields>
+			              	<field id="db_id" type="integer" not_null="1" default="" foreign_key="db"/>
+			            	<field id="accession" type="string" not_null="1" default="" foreign_key=""/>
+			            	<field id="version" type="string" not_null="1" default="0" foreign_key=""/>
+			            	<field id="description" type="string" not_null="" default="" foreign_key=""/>
+						</fields>
+						<indexes>		
+			            	<index columns="db_id,accession,version" unique="1"/>
+			            	<index columns="db_id" unique=""/>
+			            	<index columns="accession" unique=""/>
+			            	<index columns="version" unique=""/>
+						</indexes>					
+					</table>								
+					<table id="project" primary_key="project_id">
+						<fields>
+							<field id="name" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="description" type="string" not_null="1" default="" foreign_key=""/>
+						</fields>
+						<indexes>		
+              				<index columns="name" unique="1"/>
+						</indexes>					
+					</table>								
+					<table id="tableinfo" primary_key="tableinfo_id">
+						<fields>
+							<field id="name" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="primary_key_column" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="is_view" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="view_on_table_id" type="integer" not_null="" default="" foreign_key=""/>  
+							<field id="superclass_table_id" type="integer" not_null="" default="" foreign_key=""/>  
+							<field id="is_updateable" type="integer" not_null="1" default="1" foreign_key=""/>  
+							<field id="modification_date" type="timestamp" not_null="1" default="" foreign_key=""/>  
+						</fields>
+						<indexes>
+							<index columns="name" unique="1"/>	
+						</indexes>					
+					</table>								
+			 	</tables>			
+			</module>
+			<module id="cv" requires="general">
+				<tables>
+					<table id="cv" primary_key="cv_id">
+						<fields>
+							<field id="name" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="definition" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>	
+							<index columns="name" unique="1"/>		
+						</indexes>					
+					</table>				
+					<table id="cvterm" primary_key="cvterm_id">
+						<fields>
+							<field id="name" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="definition" type="text" not_null="" default="" foreign_key=""/>
+							<field id="is_obsolete" type="integer" not_null="1" default="0" foreign_key=""/>
+							<field id="is_relationshiptype" type="integer" not_null="1" default="0" foreign_key=""/>
+							<field id="cv_id" type="integer" not_null="1" default="" foreign_key="cv"/>
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>
+						</fields>
+						<indexes>		
+							<index columns="cv_id" unique=""/>
+							<index columns="name" unique=""/>
+							<index columns="dbxref_id" unique=""/>
+							<index columns="cv_id,name,is_obsolete" unique="1"/>
+							<index columns="dbxref_id" unique="1"/>
+						</indexes>					
+					</table>								
+					<table id="cvterm_dbxref" primary_key="cvterm_dbxref_id">
+						<fields>
+							<field id="cvterm_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>  
+							<field id="is_for_definition" type="integer" not_null="1" default="0" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="cvterm_id" unique=""/>
+							<index columns="dbxref_id" unique=""/>
+							<index columns="cvterm_id,dbxref_id" unique="1"/>
+						</indexes>          
+					</table>								
+					<table id="cvterm_relationship" primary_key="cvterm_relationship_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="subject_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="object_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="subject_id" unique=""/>
+							<index columns="object_id" unique=""/>
+							<index columns="type_id,subject_id,object_id" unique="1"/>
+						</indexes>          
+					</table>								
+					<table id="cvtermpath" primary_key="cvtermpath_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="" default="" foreign_key="cvterm"/>  
+							<field id="subject_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="object_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="cv_id" type="integer" not_null="1" default="" foreign_key="cv"/>  
+							<field id="pathdistance" type="integer" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="subject_id" unique=""/>
+							<index columns="object_id" unique=""/>
+							<index columns="cv_id" unique=""/>
+							<index columns="type_id,subject_id,object_id,pathdistance" unique="1"/>
+						</indexes>          
+					</table>								
+					<table id="cvtermprop" primary_key="cvtermprop_id">
+						<fields>
+							<field id="cvterm_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="0" foreign_key=""/>  
+							<field id="value" type="text" not_null="1" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="cvterm_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="value" unique=""/>
+							<index columns="cvterm_id,type_id,rank,value" unique="1"/>
+						</indexes>          
+					</table>															
+					<table id="cvtermsynonym" primary_key="cvtermsynonym_id">
+						<fields>
+							<field id="cvterm_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="synonym" type="text" not_null="1" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="type_id,synonym" unique="1"/>
+						</indexes>          
+					</table>															
+					<table id="dbxrefprop" primary_key="dbxrefprop_id">
+						<fields>
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="1" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="dbxref_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="value" unique=""/>
+							<index columns="dbxref_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>															
+			 	</tables>			
+			</module>
+			<module id="contact" requires="cv">
+				<tables>
+					<table id="contact" primary_key="contact_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="" default="" foreign_key="cvterm"/>	
+							<field id="name" type="string" not_null="1" default=""/>
+							<field id="description" type="string" not_null="" default=""/>
+						</fields>
+						<indexes>
+							<index columns="name" unique="1"/>
+						</indexes>					
+					</table>
+					<table id="contact_relationship" primary_key="contact_relationship_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>
+							<field id="subject_id" type="integer" not_null="1" default="" foreign_key="contact"/>
+							<field id="object_id" type="integer" not_null="1" default="" foreign_key="contact"/>
+						</fields>
+						<indexes>
+							<index columns="type_id,subject_id,object_id" unique="1"/>
+							<index columns="type_id" unique="0"/>
+							<index columns="subject_id" unique="0"/>
+							<index columns="object_id" unique="0"/>
+						</indexes>					
+					</table>				
+			 	</tables>
+			</module>
+			<module id="pub" requires="general,cv">
+				<tables>
+					<table id="pub" primary_key="pub_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="title" type="text" not_null="" default="" foreign_key=""/>
+							<field id="series_name" type="string" not_null="" default="" foreign_key=""/>
+							<field id="volumetitle" type="text" not_null="" default="" foreign_key=""/>  
+							<field id="volume" type="string" not_null="" default="" foreign_key=""/>
+							<field id="issue" type="string" not_null="" default="" foreign_key=""/>
+							<field id="pages" type="string" not_null="" default="" foreign_key=""/>
+							<field id="pyear" type="string" not_null="" default="" foreign_key=""/>							
+							<field id="uniquename" type="text" not_null="1" default="" foreign_key=""/>
+							<field id="publisher" type="string" not_null="" default="" foreign_key=""/>
+							<field id="miniref" type="string" not_null="" default="" foreign_key=""/>							
+							<field id="is_obsolete" type="boolean" not_null="" default="FALSE" foreign_key=""/>
+							<field id="pubplace" type="string" not_null="" default="" foreign_key=""/>
+						</fields>
+						<indexes>   
+							<index columns="uniquename" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="pub_dbxref" primary_key="pub_dbxref_id">
+						<fields>
+							<field id="is_current" type="boolean" not_null="" default="TRUE" foreign_key=""/>  
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>
+						</fields>
+						<indexes>   
+							<index columns="pub_id,dbxref_id" unique="1"/>
+							<index columns="pub_id" unique=""/>
+							<index columns="dbxref_id" unique=""/>
+						</indexes>          
+					</table>  
+					<table id="pub_relationship" primary_key="pub_relationship_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="subject_id" type="integer" not_null="1" default="" foreign_key="pub"/>
+							<field id="object_id" type="integer" not_null="1" default="" foreign_key="pub"/>
+						</fields>
+						<indexes>   
+							<index columns="type_id,subject_id,object_id" unique="1"/>
+							<index columns="type_id" unique=""/>
+							<index columns="subject_id" unique=""/>
+							<index columns="object_id" unique=""/>
+						</indexes>          
+					</table>  
+					<table id="pubauthor" primary_key="pubauthor_id">
+						<fields>
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="surname" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="givennames" type="string" not_null="" default="" foreign_key=""/>
+							<field id="suffix" type="string" not_null="" default="" foreign_key=""/>
+							<field id="editor" type="boolean" not_null="" default="FALSE" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="pub_id,rank" unique="1"/>
+							<index columns="pub_id" unique=""/>
+						</indexes>          
+					</table>  
+					<table id="pubprop" primary_key="pubprop_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>
+							<field id="rank" type="integer" not_null="" default="" foreign_key=""/>
+							<field id="value" type="text" not_null="1" default="" foreign_key=""/>
+						</fields>
+						<indexes>
+							<index columns="type_id,pub_id,rank" unique="1"/>
+							<index columns="type_id" unique=""/>
+							<index columns="pub_id" unique=""/>
+						</indexes>
+					</table>  					
+				</tables>
+			</module>
+			<module id="stock" requires="general,cv,pub,organism,genotype,contact">
+				<tables>
+					<table id="stock" primary_key="stock_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="organism_id" type="integer" not_null="1" default="" foreign_key="organism"/>  
+							<field id="name" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="uniquename" type="text" not_null="1" default="" foreign_key=""/>  
+							<field id="description" type="text" not_null="" default="" foreign_key=""/>  
+							<field id="is_obsolete" type="boolean" not_null="1" default="FALSE" foreign_key=""/>  
+							<field id="dbxref_id" type="integer" not_null="" default="" foreign_key="dbxref"/>  
+						</fields>
+						<indexes>   
+							<index columns="uniquename,type_id,organism_id" unique="1"/>
+							<index columns="type_id" unique=""/>
+							<index columns="organism_id" unique=""/>
+							<index columns="dbxref_id" unique=""/>
+							<index columns="uniquename" unique=""/>							
+						</indexes>          
+					</table>  
+					<table id="stock_cvterm" primary_key="stock_cvterm_id">
+						<fields>
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="cvterm_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_id" unique=""/>
+							<index columns="cvterm_id" unique=""/>
+							<index columns="pub_id" unique=""/>
+							<index columns="stock_id,cvterm_id,pub_id" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stock_dbxref" primary_key="stock_dbxref_id">
+						<fields>
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>  
+							<field id="is_current" type="boolean" not_null="1" default="TRUE" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_id" unique=""/>
+							<index columns="dbxref_id" unique=""/>
+							<index columns="stock_id,dbxref_id" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stock_genotype" primary_key="stock_genotype_id">
+						<fields>
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="genotype_id" type="integer" not_null="1" default="" foreign_key="genotype"/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_id" unique=""/>
+							<index columns="genotype_id" unique=""/>
+							<index columns="stock_id,genotype_id" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stock_pub" primary_key="stock_pub_id">
+						<fields>
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_id" unique=""/>
+							<index columns="pub_id" unique=""/>
+							<index columns="stock_id,pub_id" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="stock_relationship" primary_key="stock_relationship_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="subject_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="object_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="subject_id" unique=""/>
+							<index columns="object_id" unique=""/>
+							<index columns="type_id,subject_id,object_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stock_relationship_pub" primary_key="stock_relationship_pub_id">
+						<fields>
+							<field id="stock_relationship_id" type="integer" not_null="1" default="" foreign_key="stock_relationship"/>  
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_relationship_id" unique=""/>
+							<index columns="pub_id" unique=""/>
+							<index columns="stock_relationship_id,pub_id" unique="1"/>
+						</indexes>          
+					</table>  										
+					<table id="stockcollection" primary_key="stockcollection_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="name" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="uniquename" type="text" not_null="1" default="" foreign_key=""/>  
+							<field id="contact_id" type="integer" not_null="" default="" foreign_key="contact"/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="contact_id" unique=""/>
+							<index columns="uniquename" unique=""/>
+							<index columns="type_id,uniquename" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stockcollection_stock" primary_key="stockcollection_stock_id">
+						<fields>
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="stockcollection_id" type="integer" not_null="1" default="" foreign_key="stockcollection"/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_id" unique=""/>
+							<index columns="stockcollection_id" unique=""/>
+							<index columns="stock_id,stockcollection_id" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="stockcollectionprop" primary_key="stockcollectionprop_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="stockcollection_id" type="integer" not_null="1" default="" foreign_key="stockcollection"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="stockcollection_id" unique=""/>
+							<index columns="type_id,stockcollection_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stockprop" primary_key="stockprop_id">
+						<fields>
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="stock_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="stock_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="stockprop_pub" primary_key="stockprop_pub_id">
+						<fields>
+							<field id="stockprop_pub_id" type="integer" not_null="1" default="" foreign_key="stockprop_pub"/>  
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>  
+						</fields>
+						<indexes>   
+							<index columns="stockprop_pub_id" unique=""/>
+							<index columns="pub_id" unique=""/>
+							<index columns="stockprop_pub_id,pub_id" unique="1"/>
+						</indexes>          
+					</table>
+				</tables>
+			</module>			
+			<module id="organism" requires="general,cv,pub,organism,genotype,contact">
+				<tables>
+					<table id="organism" primary_key="organism_id">
+						<fields>
+							<field id="abbreviation" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="genus" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="species" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="common_name" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="comment" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="genus,species" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="organism_dbxref" primary_key="organism_dbxref_id">
+						<fields>
+							<field id="organism_id" type="integer" not_null="1" default="" foreign_key="organism"/>  
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>  
+						</fields>
+						<indexes>   
+							<index columns="organism_id" unique=""/>
+							<index columns="dbxref_id" unique=""/>
+							<index columns="organism_id,dbxref_id" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="organismprop" primary_key="organismprop_id">
+						<fields>
+							<field id="organism_id" type="integer" not_null="1" default="" foreign_key="organism"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="organism_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="organism_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>
+				</tables>
+			</module>
+			<module id="nd" requires="general,cv,stock,contact,genotype,phenotype">
+				<tables>
+					<table id="nd_experiment" primary_key="nd_experiment_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="nd_geolocation_id" type="integer" not_null="1" default="" foreign_key="nd_geolocation"/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="nd_geolocation_id" unique=""/>
+						</indexes>          
+					</table>  
+					<table id="nd_experiment_contact" primary_key="nd_experiment_contact_id">
+						<fields>
+							<field id="contact_id" type="integer" not_null="1" default="" foreign_key="contact"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="contact_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_dbxref" primary_key="nd_experiment_dbxref_id">
+						<fields>
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="dbxref_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_genotype" primary_key="nd_experiment_genotype_id">
+						<fields>
+							<field id="genotype_id" type="integer" not_null="1" default="" foreign_key="genotype"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="genotype_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+							<index columns="genotype_id,nd_experiment_id" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_phenotype" primary_key="nd_experiment_phenotype_id">
+						<fields>
+							<field id="phenotype_id" type="integer" not_null="1" default="" foreign_key="phenotype"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="phenotype_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+							<index columns="phenotype_id,nd_experiment_id" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_project" primary_key="nd_experiment_project_id">
+						<fields>
+							<field id="project_id" type="integer" not_null="1" default="" foreign_key="project"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="project_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_protocol" primary_key="nd_experiment_protocol_id">
+						<fields>
+							<field id="protocol_id" type="integer" not_null="1" default="" foreign_key="protocol"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="protocol_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_pub" primary_key="nd_experiment_pub_id">
+						<fields>
+							<field id="pub_id" type="integer" not_null="1" default="" foreign_key="pub"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="pub_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+							<index columns="pub_id,nd_experiment_id" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_stock" primary_key="nd_experiment_stock_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="stock_id" type="integer" not_null="1" default="" foreign_key="stock"/>  
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="stock_id" unique=""/>
+							<index columns="nd_experiment_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_stock_dbxref" primary_key="nd_experiment_stock_dbxref_id">
+						<fields>
+							<field id="dbxref_id" type="integer" not_null="1" default="" foreign_key="dbxref"/>  
+							<field id="nd_experiment_stock_id" type="integer" not_null="1" default="" foreign_key="nd_experiment_stock"/>  
+						</fields>
+						<indexes>   
+							<index columns="dbxref_id" unique=""/>
+							<index columns="nd_experiment_stock_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_experiment_stockprop" primary_key="nd_experiment_stockprop_id">
+						<fields>
+							<field id="nd_experiment_stock_id" type="integer" not_null="1" default="" foreign_key="nd_experiment_stock"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="nd_experiment_stock_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="nd_experiment_stock_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="nd_experimentprop" primary_key="nd_experimentprop_id">
+						<fields>
+							<field id="nd_experiment_id" type="integer" not_null="1" default="" foreign_key="nd_experiment"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="nd_experiment_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="nd_experiment_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="nd_geolocation" primary_key="nd_geolocation_id">
+						<fields>
+							<field id="description" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="latitude" type="float" not_null="" default="" foreign_key=""/>  
+							<field id="longitude" type="float" not_null="" default="" foreign_key=""/>  
+							<field id="geodetic_datum" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="altitude" type="float" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+						</indexes>          
+					</table>  					
+					<table id="nd_geolocationprop" primary_key="nd_geolocationprop_id">
+						<fields>
+							<field id="nd_geolocation_id" type="integer" not_null="1" default="" foreign_key="nd_geolocation"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="nd_geolocation_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="nd_geolocation_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="nd_protocol" primary_key="nd_protocol_id">
+						<fields>
+							<field id="name" type="string" not_null="1" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="name" unique="1"/>
+						</indexes>          
+					</table>  					
+					<table id="nd_protocol_reagent" primary_key="nd_protocol_reagent_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="nd_protocol_id" type="integer" not_null="1" default="" foreign_key="nd_protocol"/>  
+							<field id="reagent_id" type="integer" not_null="1" default="" foreign_key="reagent"/>  
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="nd_protocol_id" unique=""/>
+							<index columns="reagent_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_protocolprop" primary_key="nd_protocolprop_id">
+						<fields>
+							<field id="nd_protocol_id" type="integer" not_null="1" default="" foreign_key="nd_protocol"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="nd_protocol_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="nd_protocol_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>  
+					<table id="nd_reagent" primary_key="nd_reagent_id">
+						<fields>
+							<field id="name" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/> 
+							<field id="feature_id" type="integer" not_null="" default="" foreign_key=""/> 
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="feature_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_reagent_relationship" primary_key="nd_reagent_relationship_id">
+						<fields>
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/> 
+							<field id="subject_reagent_id" type="integer" not_null="1" default="" foreign_key="nd_reagent"/> 
+							<field id="object_reagent_id" type="integer" not_null="1" default="" foreign_key="nd_reagent"/> 
+						</fields>
+						<indexes>   
+							<index columns="type_id" unique=""/>
+							<index columns="subject_reagent_id" unique=""/>
+							<index columns="object_reagent_id" unique=""/>
+						</indexes>          
+					</table>  					
+					<table id="nd_reagentprop" primary_key="nd_reagentprop_id">
+						<fields>
+							<field id="nd_reagent_id" type="integer" not_null="1" default="" foreign_key="nd_reagent"/>  
+							<field id="type_id" type="integer" not_null="1" default="" foreign_key="cvterm"/>  
+							<field id="rank" type="integer" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+						</fields>
+						<indexes>   
+							<index columns="nd_reagent_id" unique=""/>
+							<index columns="type_id" unique=""/>
+							<index columns="nd_reagent_id,type_id,rank" unique="1"/>
+						</indexes>          
+					</table>  		
+				</tables>
+			</module>  
+		</modules>
+	</chado>
+</schema>
