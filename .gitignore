@@ -13,4 +13,9 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-/nbproject/private/
+
+# Ignore build files
+/build*
+
+# Ignore gem giles
+/wolffia*.gem
