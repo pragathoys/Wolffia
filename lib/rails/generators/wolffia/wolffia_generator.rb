@@ -51,6 +51,8 @@ class WolffiaGenerator < Rails::Generators::Base
         @valid_modules.each do |module_tmp|
           send("#{command.capitalize}Module" , module_tmp )
         end
+
+        send("#{command.capitalize}Admin" )
       else
         # handle the requested and valid module        
         found = false
@@ -182,78 +184,112 @@ class WolffiaGenerator < Rails::Generators::Base
   private 
   def InstallAdmin()
     puts "Installing Basic Admin for Wolffia"
-    # Copy Cv Admin
-    copy_file "controllers/cv_controller.rb", "app/controllers/cv_controller.rb"    
-    copy_file "views/cv/index.html.erb", "app/views/cv/index.html.erb"    
-    copy_file "views/cv/new.html.erb", "app/views/cv/new.html.erb"   
-    copy_file "views/cv/edit.html.erb", "app/views/cv/edit.html.erb"    
-    copy_file "views/cv/show.html.erb", "app/views/cv/show.html.erb"    
-    copy_file "views/cv/_form.html.erb", "app/views/cv/_form.html.erb"   
-    copy_file "controllers/cvterm_controller.rb", "app/controllers/cvterm_controller.rb"    
-    copy_file "views/cvterm/index.html.erb", "app/views/cvterm/index.html.erb"    
-    copy_file "views/cvterm/new.html.erb", "app/views/cvterm/new.html.erb"   
-    copy_file "views/cvterm/edit.html.erb", "app/views/cvterm/edit.html.erb"    
-    copy_file "views/cvterm/show.html.erb", "app/views/cvterm/show.html.erb"    
-    copy_file "views/cvterm/_form.html.erb", "app/views/cvterm/_form.html.erb"   
 
-    # Copy Contact Admin
-    copy_file "controllers/contact_controller.rb", "app/controllers/contact_controller.rb"    
-    copy_file "views/contact/index.html.erb", "app/views/contact/index.html.erb"    
-    copy_file "views/contact/new.html.erb", "app/views/contact/new.html.erb"   
-    copy_file "views/contact/edit.html.erb", "app/views/contact/edit.html.erb"    
-    copy_file "views/contact/show.html.erb", "app/views/contact/show.html.erb"    
-    copy_file "views/contact/_form.html.erb", "app/views/contact/_form.html.erb"   
+    # Copy wolffiacp
+    copy_file "controllers/wolffiacp_controller.rb", "app/controllers/wolffiacp_controller.rb"    
+    copy_file "views/wolffiacp/index.html.erb", "app/views/wolffiacp/index.html.erb"   
 
-    # Copy Stock Admin
-    copy_file "controllers/stock_controller.rb", "app/controllers/stock_controller.rb"    
-    copy_file "views/stock/index.html.erb", "app/views/stock/index.html.erb"    
-    copy_file "views/stock/new.html.erb", "app/views/stock/new.html.erb"   
-    copy_file "views/stock/edit.html.erb", "app/views/stock/edit.html.erb"    
-    copy_file "views/stock/show.html.erb", "app/views/stock/show.html.erb"    
-    copy_file "views/stock/_form.html.erb", "app/views/stock/_form.html.erb"   
+    copy_file "controllers/posts_controller.rb", "app/controllers/posts_controller.rb"    
+    copy_file "controllers/blogs_controller.rb", "app/controllers/blogs_controller.rb"    
+    copy_file "controllers/comments_controller.rb", "app/controllers/comments_controller.rb"    
+
+
+    # Copy Pages
+    copy_file "controllers/pages_controller.rb", "app/controllers/pages_controller.rb"    
+    copy_file "views/pages/index.html.erb", "app/views/pages/index.html.erb"    
+    copy_file "views/pages/new.html.erb", "app/views/pages/new.html.erb"   
+    copy_file "views/pages/edit.html.erb", "app/views/pages/edit.html.erb"    
+    copy_file "views/pages/show.html.erb", "app/views/pages/show.html.erb"    
+    copy_file "views/pages/_form.html.erb", "app/views/pages/_form.html.erb"   
+
+    # Copy sessions
+    copy_file "controllers/sessions_controller.rb", "app/controllers/sessions_controller.rb"    
+    copy_file "views/sessions/new.html.erb", "app/views/sessions/new.html.erb"   
+
+    # Copy static
+    copy_file "controllers/static_controller.rb", "app/controllers/static_controller.rb"    
+    copy_file "views/static/index.html.erb", "app/views/static/index.html.erb"   
+
+    # Copy user Admin
+    copy_file "controllers/user_controller.rb", "app/controllers/user_controller.rb"    
+    copy_file "views/user/index.html.erb", "app/views/user/index.html.erb"    
+    copy_file "views/user/new.html.erb", "app/views/user/new.html.erb"   
+    copy_file "views/user/edit.html.erb", "app/views/user/edit.html.erb"    
+    copy_file "views/user/show.html.erb", "app/views/user/show.html.erb"    
+    copy_file "views/user/_form.html.erb", "app/views/user/_form.html.erb"   
+
+    # Copy CSS
+    copy_file "assets/stylesheets/wolffia.css", "app/assets/stylesheets/wolffia.css"    
+
+    # Copy JS
+    copy_file "assets/javascripts/wolffia.js", "app/assets/javascripts/wolffia.js"    
 
     # Add Route
     route "resources :wolffiacp"
     route "resources :pages"
     route "resources :users"
     route "resources :sessions"
+    route "resources :static"
+    route "resources :posts"
+    route "resources :blogs"
+    route "resources :comments"
+
+    route "root :to => 'static#index'"
+
+    # remove the public/index.html
+    remove_file("public/index.html") 
   end
 
   private 
   def UninstallAdmin()
     puts "Uninstalling Basic Admin for Wolffia"
 
-      remove_file("app/controllers/cvterm_controller.rb")
-      remove_file("app/views/cvterm/index.html.erb") 
-      remove_file("app/views/cvterm/new.html.erb") 
-      remove_file("app/views/cvterm/edit.html.erb") 
-      remove_file("app/views/cvterm/show.html.erb") 
-      remove_file("app/views/cvterm/_form.html.erb") 
+      remove_file("app/controllers/wolffiacp_controller.rb")
+      remove_file("app/views/wolffiacp/index.html.erb") 
+      remove_file("app/views/wolffiacp")
       gsub_file "config/routes.rb" , "resources :wolffiacp" , ""
 
-      remove_file("app/controllers/cv_controller.rb")
-      remove_file("app/views/cv/index.html.erb") 
-      remove_file("app/views/cv/new.html.erb") 
-      remove_file("app/views/cv/edit.html.erb") 
-      remove_file("app/views/cv/show.html.erb") 
-      remove_file("app/views/cv/_form.html.erb") 
-      gsub_file "config/routes.rb" , "resources :cv" , ""
+      remove_file("app/controllers/static_controller.rb")
+      remove_file("app/views/static/index.html.erb") 
+      remove_file("app/views/static")
+      gsub_file "config/routes.rb" , "resources :static" , ""
 
-      remove_file("app/controllers/contact_controller.rb")
-      remove_file("app/views/contact/index.html.erb") 
-      remove_file("app/views/contact/new.html.erb") 
-      remove_file("app/views/contact/edit.html.erb") 
-      remove_file("app/views/contact/show.html.erb") 
-      remove_file("app/views/contact/_form.html.erb") 
-      gsub_file "config/routes.rb" , "resources :contact" , ""
+      remove_file("app/controllers/sessions_controller.rb")
+      remove_file("app/views/sessions/new.html.erb") 
+      remove_file("app/views/sessions")
+      gsub_file "config/routes.rb" , "resources :sessions" , ""
 
-      remove_file("app/controllers/stock_controller.rb")
-      remove_file("app/views/stock/index.html.erb") 
-      remove_file("app/views/stock/new.html.erb") 
-      remove_file("app/views/stock/edit.html.erb") 
-      remove_file("app/views/stock/show.html.erb") 
-      remove_file("app/views/stock/_form.html.erb") 
-      gsub_file "config/routes.rb" , "resources :stock" , ""      
+      remove_file("app/controllers/pages_controller.rb")
+      remove_file("app/views/pages/index.html.erb") 
+      remove_file("app/views/pages/new.html.erb") 
+      remove_file("app/views/pages/edit.html.erb") 
+      remove_file("app/views/pages/show.html.erb") 
+      remove_file("app/views/pages/_form.html.erb") 
+      remove_file("app/views/pages")
+      gsub_file "config/routes.rb" , "resources :pages" , ""
+
+      remove_file("app/controllers/user_controller.rb")
+      remove_file("app/views/user/index.html.erb") 
+      remove_file("app/views/user/new.html.erb") 
+      remove_file("app/views/user/edit.html.erb") 
+      remove_file("app/views/user/show.html.erb") 
+      remove_file("app/views/user/_form.html.erb") 
+      remove_file("app/views/user")
+      gsub_file "config/routes.rb" , "resources :users" , ""
+
+      remove_file("app/assets/stylesheets/wolffia.css")
+
+      remove_file("app/assets/javascripts/wolffia.js")
+
+      gsub_file "config/routes.rb" , "root :to => 'static#index'" , ""
+
+      gsub_file "config/routes.rb" , "resources :blogs" , ""
+      gsub_file "config/routes.rb" , "resources :posts" , ""
+      gsub_file "config/routes.rb" , "resources :comments" , ""
+
+      # put back the index file
+      copy_file "views/public/index.html", "public/index.html"   
+
   end
 
 end

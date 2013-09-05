@@ -1,0 +1,41 @@
+<%
+if controller.action_name == "edit" then
+  action_name = "update"
+else
+  action_name = "create"
+end 
+%>
+<%= form_for @user, :url => { :action => action_name } do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @user.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :email %><br/>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br/>
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation %><br/>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="field">
+    <%= f.label :user_role_id %>    
+    <%= collection_select(:user, :user_role_id, UserRole.all, :id, :title) %>
+  </div>  
+
+  <div class="field">
+    <%= f.label :contact_id %>    
+    <%= collection_select(:profile, :contact_id, Contact.all, :id, :name) %>
+  </div>    
+  <div class="actions"><%= f.submit %></div>
+<% end %>

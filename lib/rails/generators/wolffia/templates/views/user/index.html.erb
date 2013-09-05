@@ -1,0 +1,23 @@
+<h2>List of Users</h2>
+<hr>
+<%= link_to "Create New","/administrators/create_user"%>
+<hr>
+<%= flash[:notice] %><br/>
+<div class="table_div">
+	<div class="table_row">
+		<div class="table_th">E-mail</div>
+		<div class="table_th_action">&nbsp</div>
+		<div class="table_th_action">&nbsp</div>
+		<div class="clearDiv"></div>
+	</div>
+<%
+@users.each do |user|
+	%>
+	<div class="table_row">
+
+	<div class="table_col"><%= "#{user.email}" %></div><div class="table_col_action"><%= link_to "Edit", "/administrators/edit_user/#{user.id}"%></div><div class="table_col_action"><%= link_to "Delete", "/administrators/delete_user/#{user.id}"%></div>
+	</div>
+	<%
+end
+%>
+</div>

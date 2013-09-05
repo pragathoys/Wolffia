@@ -1,0 +1,35 @@
+<div><%= flash[:notice]%></div>
+<%= form_tag sessions_path do %>
+<div class="table_div">
+	<div class="table_row">
+		<div class="table_th">Log in</div>
+		<div class="table_th"></div>
+		<div class="clearDiv"></div>
+	</div>
+
+	<div class="table_row">	
+		<div class="table_col">
+	    <%= label_tag :username %>
+		</div>
+		<div class="table_col">
+	    <%= text_field_tag :email, params[:email] %>
+		</div>
+  	</div>
+  	<div class="table_row">	
+  		<div class="table_col">
+    	<%= label_tag :password %>
+    	</div>
+    	<div class="table_col">
+    	<%= password_field_tag :password %>
+    	</div>
+  	</div>
+  	<div class="table_row">	
+  		<div class="table_col">
+    	&nbsp;
+    	</div>
+    	<div class="table_col">
+    	<%= submit_tag "Log in" %>
+    	</div>
+  	</div>  	
+</div>  
+<% end %>

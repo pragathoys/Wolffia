@@ -4,56 +4,56 @@
 		<modules>
 			<module id="session" requires="">
 				<tables>
-					<table id="user" primary_key="id">
+					<table id="users" primary_key="id">
 						<fields>
 			              	<field id="username" type="string" not_null="1" default="" foreign_key=""/>  
 			              	<field id="email" type="string" not_null="1" default="" foreign_key=""/>
 			              	<field id="password_digest" type="string" not_null="1" default="" foreign_key=""/>  
-			              	<field id="user_role_id" type="integer" not_null="1" default="" foreign_key="user_role"/> 
+			              	<field id="user_role_id" type="integer" not_null="1" default="" foreign_key="user_roles"/> 
 			              	<field id="activated" type="integer" not_null="" default="0" foreign_key=""/>  
 			              	<field id="activated_code" type="string" not_null="" default="" foreign_key=""/>  			              	
 			              	<field id="activated_date" type="timestamp" not_null="" default="" foreign_key=""/>
 						</fields>
 						<indexes>	
-							<index columns="username" unique="1"/>
+							<index columns="username" unique=""/>
 						</indexes>					
 					</table>				
-					<table id="user_role" primary_key="id">
+					<table id="user_roles" primary_key="id">
 						<fields>
 			              	<field id="title" type="string" not_null="1" default="" foreign_key=""/>
 			            	<field id="level" type="integer" not_null="1" default="" foreign_key=""/>
 						</fields>
 						<indexes>		
-			            	<index columns="level" unique="1"/>
+			            	<index columns="level" unique=""/>
 						</indexes>					
 					</table>								
-					<table id="profile" primary_key="id">
+					<table id="profiles" primary_key="id">
 						<fields>
-							<field id="user_id" type="integer" not_null="1" default="" foreign_key="user"/>
+							<field id="user_id" type="integer" not_null="1" default="" foreign_key="users"/>
 							<field id="first_name" type="string" not_null="" default="" foreign_key=""/>  
 							<field id="last_name" type="string" not_null="" default="" foreign_key=""/>
-							<field id="gender_id" type="integer" not_null="" default="" foreign_key="gender"/>
+							<field id="gender_id" type="integer" not_null="" default="" foreign_key="genders"/>
 							<field id="notes" type="text" not_null="" default="" foreign_key=""/>
 						</fields>
 						<indexes>		
               				
 						</indexes>					
 					</table>	
-					<table id="gender" primary_key="id">
+					<table id="genders" primary_key="id">
 						<fields>
 			              	<field id="title" type="string" not_null="1" default="" foreign_key=""/>
 						</fields>
 						<indexes>		
-			            	<index columns="title" unique="1"/>
+			            	<index columns="title" unique=""/>
 						</indexes>					
 					</table>	
 			 	</tables>			
 			</module>
 			<module id="cms" requires="session">
 				<tables>
-					<table id="page" primary_key="id">
+					<table id="pages" primary_key="id">
 						<fields>
-							<field id="user_id" type="integer" not_null="1" default="" foreign_key="user"/>
+							<field id="user_id" type="integer" not_null="1" default="" foreign_key="users"/>
 							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
 							<field id="seo" type="text" not_null="" default="" foreign_key=""/>  
 							<field id="keywords" type="text" not_null="" default="" foreign_key=""/>  
@@ -66,9 +66,9 @@
 							
 						</indexes>					
 					</table>	
-					<table id="blog" primary_key="id">
+					<table id="blogs" primary_key="id">
 						<fields>
-							<field id="user_id" type="integer" not_null="1" default="" foreign_key="user"/>
+							<field id="user_id" type="integer" not_null="1" default="" foreign_key="users"/>
 							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
 							<field id="seo" type="text" not_null="" default="" foreign_key=""/>  
 							<field id="keywords" type="text" not_null="" default="" foreign_key=""/>  
@@ -79,10 +79,11 @@
 							
 						</indexes>					
 					</table>			
-					<table id="post" primary_key="cvterm_id">
+					<table id="posts" primary_key="cvterm_id">
 						<fields>
-							<field id="blog_id" type="integer" not_null="1" default="" foreign_key="blog"/>  
-							<field id="user_id" type="integer" not_null="1" default="" foreign_key="user"/>
+							<field id="blog_id" type="integer" not_null="1" default="" foreign_key="blogs"/>  
+							<field id="user_id" type="integer" not_null="1" default="" foreign_key="users"/>
+							<field id="user_alias" type="string" not_null="1" default="" foreign_key=""/>
 							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
 							<field id="seo" type="text" not_null="" default="" foreign_key=""/>  
 							<field id="keywords" type="text" not_null="" default="" foreign_key=""/>  
@@ -95,10 +96,11 @@
 
 						</indexes>					
 					</table>								
-					<table id="comment" primary_key="id">
+					<table id="comments" primary_key="id">
 						<fields>
-							<field id="post_id" type="integer" not_null="1" default="" foreign_key="post"/>  
-							<field id="user_id" type="integer" not_null="1" default="" foreign_key="user"/>
+							<field id="post_id" type="integer" not_null="1" default="" foreign_key="posts"/>  
+							<field id="user_id" type="integer" not_null="1" default="" foreign_key="users"/>
+							<field id="user_alias" type="string" not_null="1" default="" foreign_key=""/>
 							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
 							<field id="content" type="text" not_null="" default="" foreign_key=""/>  
 							<field id="is_published" type="integer" not_null="1" default="0" foreign_key=""/>
@@ -109,6 +111,41 @@
 					</table>																						
 			 	</tables>			
 			</module>
+			<module id="wolffiacp" requires="session">
+				<tables>
+					<table id="plugin" primary_key="id">
+						<fields>
+							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="version" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="author" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="url" type="string" not_null="" default="" foreign_key=""/>  
+							<field id="notes" type="text" not_null="" default="" foreign_key=""/>  
+							<field id="is_published" type="integer" not_null="1" default="0" foreign_key=""/> 						
+						</fields>
+						<indexes>	
+							
+						</indexes>					
+					</table>	
+					<table id="group_params" primary_key="id">
+						<fields>
+							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
+						</fields>
+						<indexes>	
+							
+						</indexes>					
+					</table>			
+					<table id="params" primary_key="id">
+						<fields>
+							<field id="title" type="string" not_null="1" default="" foreign_key=""/>  
+							<field id="value" type="text" not_null="" default="" foreign_key=""/>  
+							<field id="group_id" type="integer" not_null="" default="" foreign_key="group_params"/>  
+						</fields>
+						<indexes>	
+							
+						</indexes>					
+					</table>									
+			 	</tables>			
+			</module>			
 		</modules>
 	</wolffia>
 </schema>
