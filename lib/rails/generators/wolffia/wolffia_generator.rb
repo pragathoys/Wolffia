@@ -188,6 +188,7 @@ class WolffiaGenerator < Rails::Generators::Base
     # Copy wolffiacp
     copy_file "controllers/wolffiacp_controller.rb", "app/controllers/wolffiacp_controller.rb"    
     copy_file "views/wolffiacp/index.html.erb", "app/views/wolffiacp/index.html.erb"   
+    copy_file "views/wolffiacp/install.html.erb", "app/views/wolffiacp/install.html.erb"
 
     copy_file "controllers/posts_controller.rb", "app/controllers/posts_controller.rb"    
     copy_file "controllers/blogs_controller.rb", "app/controllers/blogs_controller.rb"    
@@ -219,7 +220,11 @@ class WolffiaGenerator < Rails::Generators::Base
     copy_file "views/user/_form.html.erb", "app/views/user/_form.html.erb"   
 
     # Copy CSS
-    copy_file "assets/stylesheets/wolffia.css", "app/assets/stylesheets/wolffia.css"    
+    copy_file "assets/stylesheets/wolffia.css", "app/assets/stylesheets/wolffia.css"  
+    copy_file "assets/stylesheets/unsemantic-grid-responsive.css", "app/assets/stylesheets/unsemantic-grid-responsive.css"  
+
+    # layout
+    copy_file "views/layouts/wolffiacp.html.erb", "app/views/layouts/wolffiacp.html.erb"  
 
     # Copy JS
     copy_file "assets/javascripts/wolffia.js", "app/assets/javascripts/wolffia.js"    
@@ -246,6 +251,7 @@ class WolffiaGenerator < Rails::Generators::Base
 
       remove_file("app/controllers/wolffiacp_controller.rb")
       remove_file("app/views/wolffiacp/index.html.erb") 
+      remove_file("app/views/wolffiacp/install.html.erb") 
       remove_file("app/views/wolffiacp")
       gsub_file "config/routes.rb" , "resources :wolffiacp" , ""
 
@@ -277,7 +283,11 @@ class WolffiaGenerator < Rails::Generators::Base
       remove_file("app/views/user")
       gsub_file "config/routes.rb" , "resources :users" , ""
 
+      # layout
+      remove_file("app/views/layouts/wolffiacp.html.erb")
+
       remove_file("app/assets/stylesheets/wolffia.css")
+      remove_file("app/assets/stylesheets/unsemantic-grid-responsive.css")
 
       remove_file("app/assets/javascripts/wolffia.js")
 

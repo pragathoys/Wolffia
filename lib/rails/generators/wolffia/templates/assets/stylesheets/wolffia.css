@@ -1,0 +1,48 @@
+body{
+	margin:0px auto;
+}
+
+.wcp-header{
+	background-color:#257625;
+	height:100px;
+}
+
+.wcp-header-left{
+	padding: 10px;
+}
+
+.wcp-header-right{
+	text-align: right;
+	padding: 10px;
+}
+
+.wcp-header a{
+	color:#efefef;
+	text-decoration: none;	
+}
+
+.wcp-header a:hover{
+	text-decoration: underline;	
+}
+
+.logo-top{
+	font-size: 28px;
+	font-family: Verdana;
+}
+
+.wcp-footer{
+	background-color:#257625;
+	font-size: 13px;
+	text-align: center;
+}
+
+.wcp-footer-links-header{
+	font-weight: bold;
+	color: #efefef;	
+}
+
+.wcp-version{
+	font-size: 11px;
+	font-style: italic;
+	text-align: center;
+}

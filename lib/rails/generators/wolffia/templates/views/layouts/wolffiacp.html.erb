@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wolffia Control Panel</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="grid-container">
+	<div class="grid-100 wcp-header">
+		<div class="grid-40  wcp-header-left">
+			<%= link_to "Wolffia Control Panel","/wolffiacp",:class=>"logo-top" %>
+		</div>
+		<div class="grid-60 wcp-header-right">
+			Login | Help
+		</div>
+	</div>	
+	<div id="main-content" class="grid-100">
+		<%= yield %>
+	</div>
+	<div class="grid-100 wcp-footer">
+		<div class="grid-33">
+			<div class="wcp-footer-links-header">Footer Links</div>
+		</div>
+		<div class="grid-33">
+			<div class="wcp-footer-links-header">Footer Links</div>
+		</div>
+		<div class="grid-33">
+			<div class="wcp-footer-links-header">Footer Links</div>
+		</div>				
+	</div>
+	<div class="grid-100 wcp-version">v0.1.080913</div>
+</div>
+
+
+</body>
+</html>
