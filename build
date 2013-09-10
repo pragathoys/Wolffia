@@ -1,3 +1,0 @@
-sudo gem1.8 uninstall wolffia
-sudo gem1.8 build wolffia.gemspec
-sudo gem1.8 install wolffia-0.0.1.gem 
